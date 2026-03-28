@@ -69,27 +69,51 @@ Use `--no-json` for human-readable plain text output.
 
 ## Architecture
 
-```
-Agent (Claude, Codex, Gemini, etc.)
-    | shell out
-shellwright (CLI binary)
-    | IPC (Unix socket / Named pipe)
-shellwrightd (daemon — session host)
-    |
-Session Manager (lifecycle, naming, lookup)
-    |
-+---------------+
-| PTY Session   | x N concurrent sessions
-+---------------+
-| PTY Runner    | — portable-pty (Unix + Windows ConPTY)
-| VT Parser     | — vt100 crate (ANSI strip, screen state)
-| Output Ring   | — bounded buffer with cursor-based reads
-| Prompt Det.   | — heuristic prompt detection
-| Transcript    | — append-only log to disk
-+---------------+
+```mermaid
+graph TB
+    Agent["AI Agent<br/><i>Claude, Codex, Gemini, etc.</i>"]
+    CLI["shellwright<br/><i>CLI binary</i>"]
+    IPC{{"IPC<br/><small>Unix socket / Named pipe</small>"}}
+    Daemon["shellwrightd<br/><i>daemon</i>"]
+    SM["Session Manager<br/><small>lifecycle · naming · cleanup</small>"]
+
+    Agent -- "shell out" --> CLI
+    CLI -- "JSON over IPC" --> IPC
+    IPC --> Daemon
+    Daemon --> SM
+
+    subgraph Sessions ["PTY Sessions (x N concurrent)"]
+        direction TB
+        S1["PTY Runner<br/><small>portable-pty · ConPTY · Unix PTY</small>"]
+        S2["VT Parser<br/><small>vt100 · ANSI strip · screen state</small>"]
+        S3["Output Ring<br/><small>bounded buffer · cursor reads</small>"]
+        S4["Prompt Detector<br/><small>15 patterns · calibration · settle</small>"]
+        S5["Transcript<br/><small>append-only disk log</small>"]
+        S6["Security<br/><small>danger detection · secret redaction</small>"]
+
+        S1 --> S2 --> S3
+        S2 --> S4
+        S3 --> S5
+        S1 --> S6
+    end
+
+    SM --> Sessions
+
+    style Agent fill:#4A90D9,color:#fff
+    style CLI fill:#2D2D2D,color:#fff
+    style Daemon fill:#2D2D2D,color:#fff
+    style IPC fill:#F5A623,color:#fff
+    style SM fill:#7B68EE,color:#fff
+    style Sessions fill:#1a1a2e,color:#fff
+    style S1 fill:#333,color:#fff
+    style S2 fill:#333,color:#fff
+    style S3 fill:#333,color:#fff
+    style S4 fill:#333,color:#fff
+    style S5 fill:#333,color:#fff
+    style S6 fill:#333,color:#fff
 ```
 
-The daemon (`shellwrightd`) auto-starts on first `shellwright` command. Sessions persist across agent restarts. Orphaned sessions are cleaned up after a configurable timeout.
+The daemon (`shellwrightd`) auto-starts on first `shellwright` command. Sessions persist across agent restarts. Orphaned sessions are cleaned up after a configurable timeout. The daemon self-exits after 10 minutes with no active sessions.
 
 ## Key Features
 
