@@ -1,0 +1,16 @@
+{
+  "name": "@shellwright/cli-linux-x64",
+  "version": "0.1.0",
+  "description": "Shellwright Linux x64 binary",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shellwright/shellwright"
+  },
+  "os": ["linux"],
+  "cpu": ["x64"],
+  "files": [
+    "shellwright",
+    "shellwrightd"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "shellwright",
+  "version": "0.1.0",
+  "description": "Universal CLI Session Broker for AI Agents — Playwright for CLIs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shellwright/shellwright"
+  },
+  "keywords": [
+    "cli",
+    "pty",
+    "terminal",
+    "ai-agent",
+    "session",
+    "interactive",
+    "automation"
+  ],
+  "bin": {
+    "shellwright": "bin/shellwright",
+    "shellwrightd": "bin/shellwrightd"
+  },
+  "files": [
+    "bin",
+    "scripts"
+  ],
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "optionalDependencies": {
+    "@shellwright/cli-win32-x64": "0.1.0",
+    "@shellwright/cli-linux-x64": "0.1.0",
+    "@shellwright/cli-darwin-x64": "0.1.0",
+    "@shellwright/cli-darwin-arm64": "0.1.0"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

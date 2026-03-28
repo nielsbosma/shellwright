@@ -1,0 +1,13 @@
+# Interactive CLI prompt fixtures
+# Format: LINE | EXPECTED_TYPE | EXPECTED_MIN_CONFIDENCE
+
+Do you want to continue? [Y/n] |yes_no|0.9
+Proceed with installation? [y/N] |yes_no|0.9
+Password: |password|0.9
+Enter passphrase: |password|0.9
+Enter a value: |enter_value|0.8
+? Project name: |npm_init|0.8
+Are you sure you want to continue connecting (yes/no)? |ssh_confirm|0.9
+Username: |docker_login|0.8
+>>> |python_repl|0.8
+mysql> |sql_prompt|0.8

@@ -1,0 +1,16 @@
+{
+  "name": "@shellwright/cli-win32-x64",
+  "version": "0.1.0",
+  "description": "Shellwright Windows x64 binary",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shellwright/shellwright"
+  },
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "files": [
+    "shellwright.exe",
+    "shellwrightd.exe"
+  ]
+}

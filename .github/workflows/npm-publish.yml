@@ -1,0 +1,106 @@
+name: npm Publish
+
+on:
+  release:
+    types: [published]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            npm_pkg: shellwright-linux-x64
+            binary_suffix: ""
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            npm_pkg: shellwright-darwin-x64
+            binary_suffix: ""
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            npm_pkg: shellwright-darwin-arm64
+            binary_suffix: ""
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            npm_pkg: shellwright-win32-x64
+            binary_suffix: ".exe"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Build release binary
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Copy binaries to npm package
+        shell: bash
+        run: |
+          cp target/${{ matrix.target }}/release/shellwright${{ matrix.binary_suffix }} npm/${{ matrix.npm_pkg }}/
+          cp target/${{ matrix.target }}/release/shellwrightd${{ matrix.binary_suffix }} npm/${{ matrix.npm_pkg }}/
+
+      - name: Upload npm package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.npm_pkg }}
+          path: npm/${{ matrix.npm_pkg }}/
+
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      # Download all platform artifacts
+      - uses: actions/download-artifact@v4
+        with:
+          name: shellwright-linux-x64
+          path: npm/shellwright-linux-x64/
+      - uses: actions/download-artifact@v4
+        with:
+          name: shellwright-darwin-x64
+          path: npm/shellwright-darwin-x64/
+      - uses: actions/download-artifact@v4
+        with:
+          name: shellwright-darwin-arm64
+          path: npm/shellwright-darwin-arm64/
+      - uses: actions/download-artifact@v4
+        with:
+          name: shellwright-win32-x64
+          path: npm/shellwright-win32-x64/
+
+      # Publish platform packages first
+      - name: Publish @shellwright/cli-linux-x64
+        run: cd npm/shellwright-linux-x64 && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @shellwright/cli-darwin-x64
+        run: cd npm/shellwright-darwin-x64 && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @shellwright/cli-darwin-arm64
+        run: cd npm/shellwright-darwin-arm64 && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish @shellwright/cli-win32-x64
+        run: cd npm/shellwright-win32-x64 && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # Then publish the main package
+      - name: Publish shellwright
+        run: cd npm/shellwright && npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,8 @@
+# Bash shell prompt fixtures
+# Format: LINE | EXPECTED_TYPE | EXPECTED_MIN_CONFIDENCE
+
+user@hostname:~$ |shell_dollar|0.5
+root@server:/var/log# |shell_dollar|0.5
+(venv) user@host:~/project$ |shell_dollar|0.5
+bash-5.2$ |shell_dollar|0.5
+$ |shell_dollar|0.5
