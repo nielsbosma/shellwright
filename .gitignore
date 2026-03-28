@@ -1,5 +1,24 @@
+# Rust
 /target
 **/*.rs.bk
 Cargo.lock
 *.pdb
 .env
+
+# .NET (DotnetSpectreTest)
+**/bin/
+**/obj/
+
+# Node
+node_modules/
+npm/shellwright/bin/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
