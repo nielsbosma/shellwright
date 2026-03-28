@@ -20,30 +20,49 @@ cargo build --release
 
 ## Quick Start
 
+```mermaid
+sequenceDiagram
+    participant Agent as AI Agent
+    participant SW as shellwright
+    participant App as Interactive CLI
+
+    Agent->>SW: start --name deploy -- terraform apply
+    SW-->>Agent: {"state": "spawning", "pid": 1234}
+
+    Agent->>SW: wait deploy --for "Enter a value"
+    SW->>App: (PTY output streams)
+    App-->>SW: "Do you want to perform these actions? Enter a value:"
+    SW-->>Agent: {"matched": true}
+
+    Agent->>SW: send deploy "yes"
+    SW->>App: yes⏎
+    SW-->>Agent: {"message": "Input sent"}
+
+    Agent->>SW: wait deploy --for "Apply complete"
+    App-->>SW: "Apply complete! Resources: 3 added"
+    SW-->>Agent: {"matched": true, "match_text": "Apply complete"}
+
+    Agent->>SW: read deploy --tail 5
+    SW-->>Agent: {"text": "Apply complete! Resources: 3 added..."}
+
+    Agent->>SW: terminate deploy
+    SW-->>Agent: {"message": "Session terminated"}
+```
+
+### Commands
+
 ```bash
-# Start a session
-shellwright start --name build -- npm run build
-
-# Read output
-shellwright read build
-
-# Send input to a prompt
-shellwright send build "y"
-
-# Wait for a pattern in output
+shellwright start --name build -- npm run build   # Start session
+shellwright read build                             # Read output
+shellwright read build --tail 10                   # Last 10 lines
+shellwright read build --since 42                  # Since cursor 42
+shellwright send build "y"                         # Send input + Enter
+shellwright send build "y" --wait-for "done"       # Send + wait
 shellwright wait build --for "PASS|FAIL" --timeout 30
-
-# List all sessions
-shellwright list
-
-# Get session status
-shellwright status build
-
-# Send Ctrl+C
-shellwright interrupt build
-
-# Terminate a session
-shellwright terminate build
+shellwright status build                           # State + prompt info
+shellwright list                                   # All sessions
+shellwright interrupt build                        # Ctrl+C
+shellwright terminate build                        # Kill
 ```
 
 ## JSON Output
