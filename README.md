@@ -8,22 +8,6 @@ Shellwright is a cross-platform, PTY-backed session broker that transforms termi
 
 AI coding agents hit a wall the moment a CLI asks a question. `npm init` wants a project name. `terraform apply` wants confirmation. `ssh` wants a password. `git rebase -i` opens an editor. The agent's shell tool can't type into these prompts — it hangs, times out, or crashes.
 
-```mermaid
-graph LR
-    A["AI Agent"] -->|"runs"| B["terraform apply"]
-    B -->|"Enter a value:"| C{{"Agent can't<br/>type into prompt"}}
-    C -->|"timeout"| D["Fails"]
-
-    A2["AI Agent"] -->|"runs"| E["shellwright start -- terraform apply"]
-    E -->|"wait --for 'Enter a value'"| F["Prompt detected"]
-    F -->|"send 'yes'"| G["Input delivered"]
-    G -->|"wait --for 'Apply complete'"| H["Success"]
-
-    style C fill:#e74c3c,color:#fff
-    style D fill:#e74c3c,color:#fff
-    style H fill:#2ecc71,color:#fff
-```
-
 Today's workarounds are fragile: per-tool `--yes` flags that don't cover all cases, MCP servers locked to specific agent frameworks, or ecosystem-specific PTY support (Codex CLI for OpenAI only, Gemini CLI for Google only).
 
 Shellwright fills the gap: **one CLI tool, any agent, any platform, any interactive program.**
