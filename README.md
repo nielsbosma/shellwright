@@ -118,17 +118,7 @@ Use `--no-json` for human-readable plain text output.
 - **Wait-for patterns**: `shellwright wait build --for "PASS|FAIL"` — the `waitForSelector` of CLIs
 - **Security**: Dangerous command detection, secret redaction
 - **Clean output**: VT terminal emulation strips ANSI noise, collapses progress bars
-
-## Comparison
-
-| Tool | Approach | Limitation |
-|---|---|---|
-| expect/pexpect | Regex-based PTY scripting | Not structured, no agent protocol |
-| mcp-interactive-terminal | Node.js MCP server | Node dependency, Unix-only, MCP-locked |
-| Codex CLI (exec_command) | Model-driven PTY sessions | Locked to OpenAI ecosystem |
-| Gemini CLI (node-pty) | User-driven embedded terminal | User must interact, not programmatic |
-| **Shellwright** | **Standalone CLI session broker** | **Production-grade, cross-platform, agent-agnostic** |
-
+  
 ## License
 
 MIT
