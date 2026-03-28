@@ -69,7 +69,7 @@ async fn test_spectre_console_wizard() {
 
     // Path to the DotnetSpectreTest executable
     let exe_path = if cfg!(windows) {
-        r"D:\Repos\_Personal\Shellwright\test\DotnetSpectreTest\bin\Debug\net10.0\DotnetSpectreTest.exe"
+        r"D:\Repos\_Personal\Shellwright\cli-tests\DotnetSpectreTest\bin\Debug\net10.0\DotnetSpectreTest.exe"
     } else {
         "D:/Repos/_Personal/Shellwright/test/DotnetSpectreTest/bin/Debug/net10.0/DotnetSpectreTest"
     };
