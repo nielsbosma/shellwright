@@ -28,10 +28,10 @@
     "postinstall": "node scripts/postinstall.js"
   },
   "optionalDependencies": {
-    "@shellwright/cli-win32-x64": "0.1.0",
-    "@shellwright/cli-linux-x64": "0.1.0",
-    "@shellwright/cli-darwin-x64": "0.1.0",
-    "@shellwright/cli-darwin-arm64": "0.1.0"
+    "shellwright-cli-win32-x64": "0.1.0",
+    "shellwright-cli-linux-x64": "0.1.0",
+    "shellwright-cli-darwin-x64": "0.1.0",
+    "shellwright-cli-darwin-arm64": "0.1.0"
   },
   "engines": {
     "node": ">=16"

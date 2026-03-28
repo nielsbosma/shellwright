@@ -1,5 +1,5 @@
 {
-  "name": "@shellwright/cli-linux-x64",
+  "name": "shellwright-cli-linux-x64",
   "version": "0.1.0",
   "description": "Shellwright Linux x64 binary",
   "license": "MIT",

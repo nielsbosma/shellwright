@@ -7,10 +7,10 @@ const fs = require("fs");
 const path = require("path");
 
 const PLATFORMS = {
-  "win32-x64": "@shellwright/cli-win32-x64",
-  "linux-x64": "@shellwright/cli-linux-x64",
-  "darwin-x64": "@shellwright/cli-darwin-x64",
-  "darwin-arm64": "@shellwright/cli-darwin-arm64",
+  "win32-x64": "shellwright-cli-win32-x64",
+  "linux-x64": "shellwright-cli-linux-x64",
+  "darwin-x64": "shellwright-cli-darwin-x64",
+  "darwin-arm64": "shellwright-cli-darwin-arm64",
 };
 
 const EXE_SUFFIX = process.platform === "win32" ? ".exe" : "";

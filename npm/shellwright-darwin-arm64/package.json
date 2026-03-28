@@ -1,5 +1,5 @@
 {
-  "name": "@shellwright/cli-darwin-arm64",
+  "name": "shellwright-cli-darwin-arm64",
   "version": "0.1.0",
   "description": "Shellwright macOS ARM64 (Apple Silicon) binary",
   "license": "MIT",

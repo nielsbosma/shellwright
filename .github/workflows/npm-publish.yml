@@ -79,22 +79,22 @@ jobs:
           path: npm/shellwright-win32-x64/
 
       # Publish platform packages first
-      - name: Publish @shellwright/cli-linux-x64
+      - name: Publish shellwright-cli-linux-x64
         run: cd npm/shellwright-linux-x64 && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @shellwright/cli-darwin-x64
+      - name: Publish shellwright-cli-darwin-x64
         run: cd npm/shellwright-darwin-x64 && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @shellwright/cli-darwin-arm64
+      - name: Publish shellwright-cli-darwin-arm64
         run: cd npm/shellwright-darwin-arm64 && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @shellwright/cli-win32-x64
+      - name: Publish shellwright-cli-win32-x64
         run: cd npm/shellwright-win32-x64 && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
