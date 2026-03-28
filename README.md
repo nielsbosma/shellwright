@@ -6,14 +6,28 @@ Shellwright is a cross-platform, PTY-backed session broker that transforms termi
 
 ## Installation
 
+### npm / npx (no Rust toolchain needed)
+
+```bash
+# Install globally
+npm install -g shellwright
+
+# Or run directly without installing
+npx shellwright start --name build -- npm run build
+```
+
+Platform-specific binaries (Windows, macOS, Linux) are bundled automatically.
+
+### Cargo
+
 ```bash
 cargo install shellwright
 ```
 
-Or build from source:
+### From source
 
 ```bash
-git clone https://github.com/shellwright/shellwright
+git clone https://github.com/nielsbosma/shellwright
 cd shellwright
 cargo build --release
 ```
